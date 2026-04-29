@@ -32,4 +32,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   DB_USER: Env.schema.string.optional(),
   DB_PASSWORD: Env.schema.string.optional(),
   DB_NAME: Env.schema.string.optional(),
+
+  // WebSocket
+  WS_HOST: Env.schema.string.optional({ format: 'host' }),
+  WS_PORT: Env.schema.number.optional(),
+  WS_ALLOWED_ORIGINS: Env.schema.string.optional(),
 })

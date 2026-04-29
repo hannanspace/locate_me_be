@@ -1,7 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Location from '#models/location'
 import { createLocationValidator, updateLocationValidator } from '#validators/location'
-import { randomBytes } from 'crypto'
+import { broadcastLocationCreated } from '#services/location_broadcaster'
+import { randomBytes } from 'node:crypto'
 import { DateTime } from 'luxon'
 
 export default class LocationsController {
@@ -19,7 +20,7 @@ export default class LocationsController {
 
       return response.ok({
         locations: locations.map((loc) => this.formatLocation(loc)),
-        total: parseInt(total?.$extras.total || '0'),
+        total: Number.parseInt(total?.$extras.total || '0', 10),
         limit,
         offset,
       })
@@ -48,7 +49,12 @@ export default class LocationsController {
         description: payload.description,
       })
 
-      return response.status(201).json(this.formatLocation(location))
+      const serializedLocation = this.formatLocation(location)
+
+      // Broadcast after persistence so clients receive only committed records.
+      broadcastLocationCreated(serializedLocation)
+
+      return response.status(201).json(serializedLocation)
     } catch (error: unknown) {
       console.error('Location create error:', error)
       const err = error as any

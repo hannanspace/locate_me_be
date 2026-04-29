@@ -11,6 +11,8 @@
 
 await import('reflect-metadata')
 const { Ignitor, prettyPrintError } = await import('@adonisjs/core')
+const { startLocationBroadcastServer, stopLocationBroadcastServer } =
+  await import('#services/location_broadcaster')
 
 /**
  * URL to the application root. AdonisJS need it to resolve
@@ -33,9 +35,16 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
   .tap((app) => {
     app.booting(async () => {
       await import('#start/env')
+      startLocationBroadcastServer()
     })
-    app.listen('SIGTERM', () => app.terminate())
-    app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
+    app.listen('SIGTERM', () => {
+      stopLocationBroadcastServer()
+      app.terminate()
+    })
+    app.listenIf(app.managedByPm2, 'SIGINT', () => {
+      stopLocationBroadcastServer()
+      app.terminate()
+    })
   })
   .httpServer()
   .start()
