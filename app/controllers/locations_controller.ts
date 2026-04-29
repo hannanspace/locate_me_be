@@ -40,7 +40,7 @@ export default class LocationsController {
         latitude: payload.latitude,
         longitude: payload.longitude,
         accuracy: payload.accuracy,
-        timestamp: payload.timestamp,
+        timestamp: new Date(payload.timestamp),
         country: payload.country,
         state: payload.state,
         description: payload.description,
