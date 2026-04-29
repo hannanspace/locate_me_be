@@ -19,9 +19,9 @@ export default class LocationsController {
 
       return response.ok({
         locations: locations.map((loc) => this.formatLocation(loc)),
-        total: parseInt(total?.$extras.total || 0),
-        limit: parseInt(limit),
-        offset: parseInt(offset),
+        total: parseInt(total?.$extras.total || '0'),
+        limit,
+        offset,
       })
     } catch (error) {
       console.error('Locations fetch error:', error)
@@ -150,11 +150,11 @@ export default class LocationsController {
       latitude: location.latitude,
       longitude: location.longitude,
       accuracy: location.accuracy,
-      timestamp: location.timestamp,
+      timestamp: location.timestamp.toISO(),
       country: location.country,
       state: location.state,
       description: location.description,
-      createdAt: location.createdAt,
+      createdAt: location.createdAt.toISO(),
     }
   }
 }

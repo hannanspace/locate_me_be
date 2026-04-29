@@ -56,7 +56,7 @@ const dbConfig = defineConfig({
       client: 'pg',
       connection: {
         host: env.get('DB_HOST', 'localhost'),
-        port: env.get('DB_PORT', 5432),
+        port: parseInt(env.get('DB_PORT', '5432')),
         user: env.get('DB_USER', 'postgres'),
         password: env.get('DB_PASSWORD', 'postgres'),
         database: env.get('DB_NAME', 'locate_me'),
