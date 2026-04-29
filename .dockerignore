@@ -1,0 +1,17 @@
+.git
+.gitignore
+.env
+.env.example
+.env.test
+.idea
+.vscode
+.claude
+node_modules
+build
+dist
+npm-debug.log
+yarn-error.log
+.DS_Store
+tmp
+tests
+*.md
