@@ -2,6 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Location from '#models/location'
 import { createLocationValidator, updateLocationValidator } from '#validators/location'
 import { randomBytes } from 'crypto'
+import { DateTime } from 'luxon'
 
 export default class LocationsController {
   async index({ request, response }: HttpContext) {
@@ -10,7 +11,7 @@ export default class LocationsController {
       const offset = request.input('offset', 0)
 
       const locations = await Location.query()
-        .orderBy('created_at', 'desc')
+        .orderBy('createdAt', 'desc')
         .limit(limit)
         .offset(offset)
 
@@ -18,11 +19,12 @@ export default class LocationsController {
 
       return response.ok({
         locations: locations.map((loc) => this.formatLocation(loc)),
-        total: total?.$extras.total || 0,
-        limit,
-        offset,
+        total: parseInt(total?.$extras.total || 0),
+        limit: parseInt(limit),
+        offset: parseInt(offset),
       })
     } catch (error) {
+      console.error('Locations fetch error:', error)
       return response.status(500).json({
         error: 'Server Error',
         message: 'Failed to fetch locations',
@@ -40,7 +42,7 @@ export default class LocationsController {
         latitude: payload.latitude,
         longitude: payload.longitude,
         accuracy: payload.accuracy,
-        timestamp: new Date(payload.timestamp),
+        timestamp: DateTime.fromISO(payload.timestamp),
         country: payload.country,
         state: payload.state,
         description: payload.description,
@@ -48,6 +50,7 @@ export default class LocationsController {
 
       return response.status(201).json(this.formatLocation(location))
     } catch (error: unknown) {
+      console.error('Location create error:', error)
       const err = error as any
       if (err.messages) {
         return response.status(400).json({
