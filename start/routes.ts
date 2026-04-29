@@ -33,5 +33,7 @@ router
       .prefix('account')
       .as('profile')
       .use(middleware.auth())
+
+    router.resource('locations', controllers.Locations)
   })
   .prefix('/api/v1')

@@ -32,6 +32,31 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class LocationSchema extends BaseModel {
+  static $columns = ['accuracy', 'country', 'createdAt', 'description', 'id', 'latitude', 'longitude', 'state', 'timestamp', 'updatedAt'] as const
+  $columns = LocationSchema.$columns
+  @column()
+  declare accuracy: number
+  @column()
+  declare country: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare latitude: number
+  @column()
+  declare longitude: number
+  @column()
+  declare state: string
+  @column.dateTime()
+  declare timestamp: DateTime
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+}
+
 export class UserSchema extends BaseModel {
   static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
   $columns = UserSchema.$columns

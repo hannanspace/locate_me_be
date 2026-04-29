@@ -30,6 +30,48 @@ const routes = {
     tokens: [{"old":"/api/v1/account/logout","type":0,"val":"api","end":""},{"old":"/api/v1/account/logout","type":0,"val":"v1","end":""},{"old":"/api/v1/account/logout","type":0,"val":"account","end":""},{"old":"/api/v1/account/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['profile.access_tokens.destroy']['types'],
   },
+  'locations.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/locations',
+    tokens: [{"old":"/api/v1/locations","type":0,"val":"api","end":""},{"old":"/api/v1/locations","type":0,"val":"v1","end":""},{"old":"/api/v1/locations","type":0,"val":"locations","end":""}],
+    types: placeholder as Registry['locations.index']['types'],
+  },
+  'locations.create': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/locations/create',
+    tokens: [{"old":"/api/v1/locations/create","type":0,"val":"api","end":""},{"old":"/api/v1/locations/create","type":0,"val":"v1","end":""},{"old":"/api/v1/locations/create","type":0,"val":"locations","end":""},{"old":"/api/v1/locations/create","type":0,"val":"create","end":""}],
+    types: placeholder as Registry['locations.create']['types'],
+  },
+  'locations.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/locations',
+    tokens: [{"old":"/api/v1/locations","type":0,"val":"api","end":""},{"old":"/api/v1/locations","type":0,"val":"v1","end":""},{"old":"/api/v1/locations","type":0,"val":"locations","end":""}],
+    types: placeholder as Registry['locations.store']['types'],
+  },
+  'locations.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/locations/:id',
+    tokens: [{"old":"/api/v1/locations/:id","type":0,"val":"api","end":""},{"old":"/api/v1/locations/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/locations/:id","type":0,"val":"locations","end":""},{"old":"/api/v1/locations/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['locations.show']['types'],
+  },
+  'locations.edit': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/locations/:id/edit',
+    tokens: [{"old":"/api/v1/locations/:id/edit","type":0,"val":"api","end":""},{"old":"/api/v1/locations/:id/edit","type":0,"val":"v1","end":""},{"old":"/api/v1/locations/:id/edit","type":0,"val":"locations","end":""},{"old":"/api/v1/locations/:id/edit","type":1,"val":"id","end":""},{"old":"/api/v1/locations/:id/edit","type":0,"val":"edit","end":""}],
+    types: placeholder as Registry['locations.edit']['types'],
+  },
+  'locations.update': {
+    methods: ["PUT","PATCH"],
+    pattern: '/api/v1/locations/:id',
+    tokens: [{"old":"/api/v1/locations/:id","type":0,"val":"api","end":""},{"old":"/api/v1/locations/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/locations/:id","type":0,"val":"locations","end":""},{"old":"/api/v1/locations/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['locations.update']['types'],
+  },
+  'locations.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/v1/locations/:id',
+    tokens: [{"old":"/api/v1/locations/:id","type":0,"val":"api","end":""},{"old":"/api/v1/locations/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/locations/:id","type":0,"val":"locations","end":""},{"old":"/api/v1/locations/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['locations.destroy']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }
