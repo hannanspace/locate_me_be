@@ -34,6 +34,7 @@ COPY --from=builder /app/build ./build
 
 # Expose port
 EXPOSE 3333
+EXPOSE 5001
 
 # Use dumb-init to run the server
 ENTRYPOINT ["dumb-init", "--"]
@@ -41,4 +42,4 @@ CMD ["node", "build/bin/server.js"]
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3333', (r) => {if (r.statusCode !== 404) throw new Error(r.statusCode)})"
+  CMD node -e "require('http').get('http://127.0.0.1:3333', (r) => {if (r.statusCode < 200 || r.statusCode >= 400) throw new Error(String(r.statusCode))})"
