@@ -42,6 +42,12 @@ export const http = defineConfig({
   useAsyncLocalStorage: false,
 
   /**
+   * Trust the reverse proxy headers (X-Forwarded-*) when deployed behind
+   * managed ingress/proxy platforms.
+   */
+  trustProxy: env.get('TRUST_PROXY', app.inProduction),
+
+  /**
    * Redirect configuration controls the behavior of
    * response.redirect().back() and query string forwarding.
    */

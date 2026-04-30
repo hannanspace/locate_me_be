@@ -13,7 +13,23 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
-    return super.handle(error, ctx)
+    const err = error as any
+    const status = typeof err?.status === 'number' ? err.status : 500
+    const message =
+      typeof err?.message === 'string' && err.message.length > 0
+        ? err.message
+        : 'Unexpected server error'
+    const code = typeof err?.code === 'string' && err.code.length > 0 ? err.code : 'INTERNAL_ERROR'
+
+    if (status >= 500 && this.debug) {
+      return super.handle(error, ctx)
+    }
+
+    return ctx.response.status(status).json({
+      status,
+      code,
+      message,
+    })
   }
 
   /**

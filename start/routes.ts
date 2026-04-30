@@ -10,9 +10,27 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
+import db from '@adonisjs/lucid/services/db'
 
 router.get('/', () => {
   return { hello: 'world' }
+})
+
+router.get('/health', () => {
+  return { status: 'ok' }
+})
+
+router.get('/ready', async ({ response }) => {
+  try {
+    await db.rawQuery('SELECT 1')
+    return { status: 'ready' }
+  } catch {
+    return response.status(503).json({
+      status: 503,
+      code: 'NOT_READY',
+      message: 'Service is not ready',
+    })
+  }
 })
 
 router

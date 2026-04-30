@@ -1,4 +1,5 @@
 import app from '@adonisjs/core/services/app'
+import env from '#start/env'
 import { defineConfig } from '@adonisjs/cors'
 
 /**
@@ -7,6 +8,12 @@ import { defineConfig } from '@adonisjs/cors'
  *
  * https://docs.adonisjs.com/guides/security/cors
  */
+const allowedOrigins = env
+  .get('CORS_ALLOWED_ORIGINS', '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+
 const corsConfig = defineConfig({
   /**
    * Enable or disable CORS handling globally.
@@ -18,18 +25,18 @@ const corsConfig = defineConfig({
    * In production, keep an explicit allowlist (empty by default, so no
    * cross-origin browser access is allowed until configured).
    */
-  origin: app.inDev ? true : [],
+  origin: allowedOrigins.length > 0 ? allowedOrigins : app.inDev,
 
   /**
    * HTTP methods accepted for cross-origin requests.
    */
-  methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 
   /**
    * Reflect request headers by default. Use a string array to restrict
    * allowed headers.
    */
-  headers: true,
+  headers: ['Content-Type', 'Authorization'],
 
   /**
    * Response headers exposed to the browser.
